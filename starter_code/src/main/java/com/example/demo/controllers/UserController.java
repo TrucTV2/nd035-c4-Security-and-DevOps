@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -71,7 +72,7 @@ public class UserController {
 		if (exists != null) {
 			String userExistsErrorMessage = "User create failed. Reason: Username already exists.";
 			logger.info(userExistsErrorMessage);
-			throw new UsernameExistsException(userExistsErrorMessage);
+			throw new UsernameNotFoundException(userExistsErrorMessage);
 		}
 
 
@@ -82,8 +83,7 @@ public class UserController {
 		user.setCart(cart);
 		if(createUserRequest.getPassword().length()<7 ||
 				!createUserRequest.getPassword().equals(createUserRequest.getConfirmPassword())){
-			//System.out.println("Error - Either length is less than 7 or pass and conf pass do not match.
-			// Unable to create createUserRequest.getUsername());
+			// Either length is less than 7 or pass and conf pass do not match.
 			final ResponseEntity<User> response = ResponseEntity.badRequest().build();
 			logger.info("Create User Failure", response);
 			return response;
@@ -92,7 +92,7 @@ public class UserController {
 		user.setPassword(bCryptPasswordEncoder.encode(createUserRequest.getPassword()));
 		userRepository.save(user);
 		final ResponseEntity<User> response = ResponseEntity.ok(user);
-		logger.info("Create User Success", response);
+		logger.info("Create User Success. User Name : {}", user.getUsername());
 		return response;
 	}
 	

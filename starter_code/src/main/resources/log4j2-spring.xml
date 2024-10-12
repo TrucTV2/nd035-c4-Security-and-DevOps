@@ -1,27 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
     <Appenders>
+        <!-- Console Appender -->
         <Console name="console" target="SYSTEM_OUT">
             <PatternLayout
                     pattern="%style{%d{ISO8601}} %highlight{%-5level }[%style{%t}{bright,blue}] %style{%C{10}}{bright,yellow}: %msg%n%throwable" />
         </Console>
-<!--        <SplunkHttp-->
-<!--                name="splunkhttp"-->
-<!--                url="http://localhost:8088"-->
-<!--                token="2c62fbc5-5f16-42a0-bbff-69e0c10d71cd"-->
-<!--                host="localhost"-->
-<!--                index="demo"-->
-<!--                type="raw"-->
-<!--                source="Demo"-->
-<!--                sourcetype="log4j"-->
-<!--                messageFormat="text"-->
-<!--                disableCertificateValidation="true">-->
-<!--            <PatternLayout pattern="%m" />-->
-<!--        </SplunkHttp>-->
 
         <!-- CreateUser request successes -->
         <SplunkHttp
-                name="splunkhttp"
+                name="splunkhttp_success"
                 url="http://localhost:8088"
                 token="70907f33-2e61-41cf-bdeb-2ea2a6d9431b"
                 host="localhost"
@@ -34,9 +22,9 @@
             <PatternLayout pattern="%m" />
         </SplunkHttp>
 
-        <!--  CreateUserFailure-->
+        <!-- CreateUser request failures -->
         <SplunkHttp
-                name="splunkhttp"
+                name="splunkhttp_failure"
                 url="http://localhost:8088"
                 token="25adc5ea-b943-49b0-8dc9-dca099d84e1e"
                 host="localhost"
@@ -49,57 +37,61 @@
             <PatternLayout pattern="%m" />
         </SplunkHttp>
 
-<!--        &lt;!&ndash; Exceptions Login Error &ndash;&gt;-->
-<!--        <SplunkHttp-->
-<!--                name="splunkhttp"-->
-<!--                url="http://localhost:8088"-->
-<!--                token="e3721d60-1e59-46da-9e7d-147de14dc8f7"-->
-<!--                host="localhost"-->
-<!--                index="ExceptionsLoginError"-->
-<!--                type="raw"-->
-<!--                source="udacity"-->
-<!--                sourcetype="log4j"-->
-<!--                messageFormat="text"-->
-<!--                disableCertificateValidation="true">-->
-<!--            <PatternLayout pattern="%m" />-->
-<!--        </SplunkHttp>-->
+        <!-- Exceptions Login Error -->
+        <SplunkHttp
+                name="splunkhttp_exceptions"
+                url="http://localhost:8088"
+                token="e3721d60-1e59-46da-9e7d-147de14dc8f7"
+                host="localhost"
+                index="ExceptionsLoginError"
+                type="raw"
+                source="udacity"
+                sourcetype="log4j"
+                messageFormat="text"
+                disableCertificateValidation="true">
+            <PatternLayout pattern="%m" />
+        </SplunkHttp>
 
-<!--        &lt;!&ndash; order requests successes &ndash;&gt;-->
-<!--        <SplunkHttp-->
-<!--                ame="splunkhttp"-->
-<!--                url="http://localhost:8088"-->
-<!--                token="8d47b52c-5538-454c-bba3-3ae84a78bb14"-->
-<!--                host="localhost"-->
-<!--                index="order_successes"-->
-<!--                type="raw"-->
-<!--                source="udacity"-->
-<!--                sourcetype="log4j"-->
-<!--                messageFormat="text"-->
-<!--                disableCertificateValidation="true">-->
-<!--            <PatternLayout pattern="%m" />-->
-<!--        </SplunkHttp>-->
+        <!-- Order requests successes -->
+        <SplunkHttp
+                name="splunkhttp_order_success"
+                url="http://localhost:8088"
+                token="8d47b52c-5538-454c-bba3-3ae84a78bb14"
+                host="localhost"
+                index="order_successes"
+                type="raw"
+                source="udacity"
+                sourcetype="log4j"
+                messageFormat="text"
+                disableCertificateValidation="true">
+            <PatternLayout pattern="%m" />
+        </SplunkHttp>
 
-<!--        &lt;!&ndash; order requests failures &ndash;&gt;-->
-<!--        <SplunkHttp-->
-<!--                ame="splunkhttp"-->
-<!--                url="http://localhost:8088"-->
-<!--                token="ffed6bb1-6c4c-40b4-999c-6022462d77b6"-->
-<!--                host="localhost"-->
-<!--                index="	orderrequestsfailures"-->
-<!--                type="raw"-->
-<!--                source="udacity"-->
-<!--                sourcetype="log4j"-->
-<!--                messageFormat="text"-->
-<!--                disableCertificateValidation="true">-->
-<!--            <PatternLayout pattern="%m" />-->
-<!--        </SplunkHttp>-->
+        <!-- Order requests failures -->
+        <SplunkHttp
+                name="splunkhttp_order_failure"
+                url="http://localhost:8088"
+                token="ffed6bb1-6c4c-40b4-999c-6022462d77b6"
+                host="localhost"
+                index="orderrequestsfailures"
+                type="raw"
+                source="udacity"
+                sourcetype="log4j"
+                messageFormat="text"
+                disableCertificateValidation="true">
+            <PatternLayout pattern="%m" />
+        </SplunkHttp>
 
     </Appenders>
 
     <Loggers>
         <Root level="info">
             <AppenderRef ref="console" />
-            <AppenderRef ref="splunkhttp" />
+            <AppenderRef ref="splunkhttp_success" />
+            <AppenderRef ref="splunkhttp_failure" />
+            <AppenderRef ref="splunkhttp_exceptions" />
+            <AppenderRef ref="splunkhttp_order_success" />
+            <AppenderRef ref="splunkhttp_order_failure" />
         </Root>
     </Loggers>
 </Configuration>
